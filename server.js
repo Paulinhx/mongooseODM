@@ -8,7 +8,22 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
+dotenv.config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
+const CONNECTION_URL = "mongodb+srv://Paulinhx:paule1234@cluster0.dofhovk.mongodb.net/?retryWrites=true&w=majority"
 
-app.listen(PORT, () => console.log(`Server running on port: `, PORT));
+app.get("/", (req, res) =>{
+    res.send("Hello World!");
+});
+
+app.use("/posts", (req, res) => {
+    res.send("Posts ...");
+});
+
+mongoose.connect(CONNECTION_URL).then(()=>
+app.listen(PORT, () => console.log(`Database connected and server running on port: `, PORT),
+),
+)
+.catch((error) => console.log(error));
+
